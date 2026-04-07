@@ -1,0 +1,40 @@
+name: 'Jacques Solidity Auditor'
+description: 'Multi-agent AI security audit for Solidity smart contracts using Anthropic Claude'
+branding:
+  icon: 'shield'
+  color: 'orange'
+
+inputs:
+  anthropic-api-key:
+    description: 'Anthropic API key (sk-ant-...)'
+    required: true
+  model:
+    description: 'Claude model to use (opus, sonnet, haiku, or full model ID)'
+    required: false
+    default: 'sonnet'
+  verbose:
+    description: 'Enable verbose debug logging (true/false)'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: '24'
+
+    - name: Install auditor dependencies
+      shell: bash
+      run: npm ci
+      working-directory: ${{ github.action_path }}
+
+    - name: Run Solidity Audit
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
+        AUDIT_MODEL: ${{ inputs.model }}
+        AUDIT_VERBOSE: ${{ inputs.verbose }}
+      run: node ${{ github.action_path }}/scripts/auditor/prepare.js
