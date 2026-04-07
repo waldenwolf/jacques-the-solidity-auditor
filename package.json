@@ -1,0 +1,28 @@
+{
+  "name": "jacques-the-solidity-auditor",
+  "version": "1.0.0",
+  "description": "A GitHub Action / CLI tool that performs multi-agent AI security audits on Solidity smart contract PRs using Anthropic Claude. Also runs locally for development and ad-hoc auditing of any Solidity project.",
+  "homepage": "https://github.com/waldenwolf/jacques-the-solidity-auditor#readme",
+  "bugs": {
+    "url": "https://github.com/waldenwolf/jacques-the-solidity-auditor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waldenwolf/jacques-the-solidity-auditor.git"
+  },
+  "license": "MIT",
+  "author": "Walden Wolf",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/prepareFiles.test.js test/utils/*.test.js",
+    "test:integration": "node --env-file=.env --test test/integration/*.test.js",
+    "test:all": "node --env-file=.env --test test/prepareFiles.test.js test/utils/*.test.js test/integration/*.test.js",
+    "audit": "node --env-file=.env scripts/auditor/run/run_audit.js",
+    "audit:local": "node --env-file=.env scripts/auditor/run/run_audit.js"
+  },
+  "dependencies": {
+    "@actions/core": "3.0.0",
+    "@actions/github": "9.0.0",
+    "@anthropic-ai/sdk": "0.82.0"
+  }
+}
