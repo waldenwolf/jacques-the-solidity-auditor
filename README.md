@@ -90,7 +90,7 @@ name: Solidity Security Audit
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - '**/*.sol'
 
@@ -104,6 +104,7 @@ concurrency:
 
 jobs:
   audit:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
